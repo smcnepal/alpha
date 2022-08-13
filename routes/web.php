@@ -17,9 +17,19 @@ use App\Http\Controllers\TestController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('login','App\Http\Controllers\AuthController@loginView')->name('login.view');
+Route::post('login','App\Http\Controllers\AuthController@authenticate')->name('login');
+
+Route::get('register','App\Http\Controllers\AuthController@register');
+Route::POST('store','App\Http\Controllers\AuthController@store');
+
 Route::get('ajax-test','App\Http\Controllers\TestController@index');
 Route::get('ajax-image-upload','App\Http\Controllers\TestController@uploadImageView');
 Route::post('ajax-test','App\Http\Controllers\TestController@store');
 Route::post('ajax-image-upload','App\Http\Controllers\TestController@imageUpload');
 
 Route::post('ajax-image-upload2','App\Http\Controllers\TestController@imageUpload2');
+Route::group(['middleware'=>'auth'],function(){
+    Route::get('/dashboard','App\Http\Controllers\DashboardController@index');
+    Route::get('logout','App\Http\Controllers\AuthController@logout');
+});
