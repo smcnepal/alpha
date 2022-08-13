@@ -17,7 +17,10 @@ class AuthController extends Controller
     }
 
     public function store(Request $request){
-        $rand=rand(1000,9999);
+        // $rand=rand(1000,9999);
+        $rand= bin2hex(random_bytes(16));
+        dd($rand);
+
         $activation_code= password_hash($rand, PASSWORD_DEFAULT);
         $activation_expiry=Carbon::now()->addDay(1);
         // dd($activation_expiry);
